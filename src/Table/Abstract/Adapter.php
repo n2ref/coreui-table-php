@@ -81,6 +81,11 @@ abstract class Adapter {
      */
     public function getResult(): array {
 
+        if ( ! $this->is_fetched) {
+            $this->fetchRecords();
+        }
+
+
         $result = [
             'total'   => $this->total_count,
             'records' => [],
