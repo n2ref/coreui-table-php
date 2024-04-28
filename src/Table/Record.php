@@ -52,9 +52,9 @@ class Record implements \Iterator {
     public function __set(string $field, mixed $value) {
 
         if (array_key_exists($field, $this->cells)) {
-            $this->cells[$field]->setValue((string)$value);
+            $this->cells[$field]->setValue($value);
         } else {
-            $this->cells[$field] = new Cell((string)$value);
+            $this->cells[$field] = new Cell($value);
         }
     }
 

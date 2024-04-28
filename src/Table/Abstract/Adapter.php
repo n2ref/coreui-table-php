@@ -70,7 +70,7 @@ abstract class Adapter {
 
     /**
      * Получение данных
-     * @return array
+     * @return Record[]
      */
     abstract public function fetchRecords(): array;
 
