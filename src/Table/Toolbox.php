@@ -42,8 +42,10 @@ class Toolbox {
         }
 
         foreach ($controls as $control) {
-            if ($control instanceof Abstract\Control) {
-                $this->left[] = $controls;
+            if ($control instanceof Abstract\Control ||
+                $control instanceof Abstract\Filter
+            ) {
+                $this->left[] = $control;
             }
         }
 
@@ -63,8 +65,10 @@ class Toolbox {
         }
 
         foreach ($controls as $control) {
-            if ($control instanceof Abstract\Control) {
-                $this->center[] = $controls;
+            if ($control instanceof Abstract\Control ||
+                $control instanceof Abstract\Filter
+            ) {
+                $this->center[] = $control;
             }
         }
 
@@ -84,8 +88,10 @@ class Toolbox {
         }
 
         foreach ($controls as $control) {
-            if ($control instanceof Abstract\Control) {
-                $this->right[] = $controls;
+            if ($control instanceof Abstract\Control ||
+                $control instanceof Abstract\Filter
+            ) {
+                $this->right[] = $control;
             }
         }
 
@@ -132,9 +138,9 @@ class Toolbox {
      */
     public function clearAll(): self {
 
-        $this->left = null;
+        $this->left   = null;
         $this->center = null;
-        $this->right = null;
+        $this->right  = null;
 
         return $this;
     }
@@ -153,7 +159,9 @@ class Toolbox {
             $left = [];
 
             foreach ($this->left as $control) {
-                if ($control instanceof Abstract\Control) {
+                if ($control instanceof Abstract\Control ||
+                    $control instanceof Abstract\Filter
+                ) {
                     $left[] = $control->toArray();
                 }
             }
@@ -167,7 +175,9 @@ class Toolbox {
             $center = [];
 
             foreach ($this->center as $control) {
-                if ($control instanceof Abstract\Control) {
+                if ($control instanceof Abstract\Control ||
+                    $control instanceof Abstract\Filter
+                ) {
                     $center[] = $control->toArray();
                 }
             }
@@ -181,7 +191,9 @@ class Toolbox {
             $right = [];
 
             foreach ($this->right as $control) {
-                if ($control instanceof Abstract\Control) {
+                if ($control instanceof Abstract\Control ||
+                    $control instanceof Abstract\Filter
+                ) {
                     $right[] = $control->toArray();
                 }
             }
