@@ -597,7 +597,7 @@ class Table {
 
         foreach ($columns as $column) {
             if ($column instanceof Table\Abstract\Column) {
-                $this->columns[] = $columns;
+                $this->columns[] = $column;
             }
         }
 
