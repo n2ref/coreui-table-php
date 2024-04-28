@@ -7,7 +7,7 @@ namespace CoreUI;
  */
 class Table {
 
-    protected string          $id               = '';
+    protected ?string         $id               = null;
     protected ?int            $page             = null;
     protected ?int            $records_per_page = null;
     protected ?array          $group            = null;
@@ -89,6 +89,18 @@ class Table {
         }
 
         $this->records_per_page = $count;
+        return $this;
+    }
+
+
+    /**
+     * Получение текущего id
+     * @param string|null $id
+     * @return self
+     */
+    public function setId(string $id = null): self {
+
+        $this->id = $id;
         return $this;
     }
 
