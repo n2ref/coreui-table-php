@@ -1,0 +1,29 @@
+{
+  "name": "n2ref/coreui-table",
+  "type": "framework",
+  "description": "PHP framework for web applications",
+  "keywords": [
+    "framework",
+    "coreui",
+    "table"
+  ],
+  "homepage": "https://github.com/n2ref/coreui-table",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "n2ref",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CoreUI\\": "src/",
+      "CoreUI\\Table\\": "src/Table/"
+    }
+  }
+}
