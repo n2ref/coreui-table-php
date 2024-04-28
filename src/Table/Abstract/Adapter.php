@@ -3,6 +3,7 @@ namespace CoreUI\Table\Abstract;
 
 
 use CoreUI\Table\Exception;
+use CoreUI\Table\Record;
 
 abstract class Adapter {
 
@@ -72,4 +73,26 @@ abstract class Adapter {
      * @return array
      */
     abstract public function fetchRecords(): array;
+
+
+    /**
+     * Получение результирующих данных
+     * @return array
+     */
+    public function getResult(): array {
+
+        $result = [
+            'total'   => $this->total_count,
+            'records' => [],
+        ];
+
+
+        foreach ($this->records as $record) {
+            if ($record instanceof Record) {
+                $result['records'][] = $record->toArray();
+            }
+        }
+
+        return $result;
+    }
 }
