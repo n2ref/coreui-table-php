@@ -18,7 +18,7 @@ class Link extends Abstract\Column {
 
         $this->setField($field);
         $this->setLabel($label);
-        $this->setLabel($width);
+        $this->setWidth($width);
     }
 
 
