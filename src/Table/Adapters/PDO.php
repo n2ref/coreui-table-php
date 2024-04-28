@@ -109,16 +109,18 @@ abstract class PDO extends Table\Abstract\Adapter {
 
         $this->sort = [];
 
-        foreach ($sort_data as $field => $order) {
+        foreach ($sort_data as $sort) {
 
-            if (isset($sort_fields[$field]) &&
-                is_string($sort_fields[$field]) &&
-                is_string($order) &&
-                in_array(strtolower($order), ['asc', 'desc'])
+            if ( ! empty($sort['field']) &&
+                 ! empty($sort['order']) &&
+                isset($sort_fields[$sort['field']]) &&
+                is_string($sort_fields[$sort['field']]) &&
+                is_string($sort['order']) &&
+                in_array(strtolower($sort['order']), ['asc', 'desc'])
             ) {
-                $this->sort[$field] = [
-                    'order' => strtolower($order),
-                    'query' => $sort_fields[$field],
+                $this->sort[$sort['field']] = [
+                    'order' => strtolower($sort['order']),
+                    'query' => $sort_fields[$sort['field']],
                 ];
             }
         }
