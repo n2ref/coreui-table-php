@@ -136,6 +136,60 @@ abstract class Column {
 
 
     /**
+     * @param string|int|null $width
+     * @return $this
+     */
+    public function setWidth(string|int $width = null): self {
+        $this->width = $width;
+        return $this;
+    }
+
+
+    /**
+     * @return string|int|null
+     */
+    public function getWidth(): string|int|null {
+        return $this->width;
+    }
+
+
+    /**
+     * @param string|int|null $width
+     * @return $this
+     */
+    public function setMinWidth(string|int $width = null): self {
+        $this->min_width = $width;
+        return $this;
+    }
+
+
+    /**
+     * @return string|int|null
+     */
+    public function getMinWidth(): string|int|null {
+        return $this->min_width;
+    }
+
+
+    /**
+     * @param string|int|null $width
+     * @return $this
+     */
+    public function setMaxWidth(string|int $width = null): self {
+        $this->max_width = $width;
+        return $this;
+    }
+
+
+    /**
+     * @return string|int|null
+     */
+    public function getMaxWidth(): string|int|null {
+        return $this->max_width;
+    }
+
+
+    /**
      * Установка значения атрибута
      * @param string $name
      * @param string $value
