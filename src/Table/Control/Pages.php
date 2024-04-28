@@ -83,7 +83,7 @@ class Pages extends Table\Abstract\Control {
 
         $data = parent::toArray();
 
-        $data['type'] = 'page_size';
+        $data['type'] = 'pages';
 
         if ( ! is_null($this->count)) {
             $data['count'] = $this->count;
