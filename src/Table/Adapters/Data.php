@@ -67,17 +67,20 @@ class Data extends Table\Abstract\Adapter {
      * @param array $sort_fields
      * @return self
      */
-    public function setSort(array $sort_data, array $sort_fields): self {
+    public function setSort(array $sort_data, array $sort_fields = []): self {
 
         $this->sort = [];
 
-        foreach ($sort_data as $field => $order) {
+        foreach ($sort_data as $sort) {
 
-            if (is_string($order) &&
-                in_array(strtolower($order), ['asc', 'desc']) &&
-                in_array($field, $sort_fields)
+            if (is_array($sort) &&
+                ! empty($sort['field']) &&
+                ! empty($sort['order']) &&
+                (empty($sort_fields) || in_array($sort['field'], $sort_fields)) &&
+                is_string($sort['order']) &&
+                in_array(strtolower($sort['order']), ['asc', 'desc'])
             ) {
-                $this->sort[$field] = strtolower($order);
+                $this->sort[$sort['field']] = strtolower($sort['order']);
             }
         }
 
@@ -95,14 +98,19 @@ class Data extends Table\Abstract\Adapter {
 
         $this->search = [];
 
-        foreach ($search_data as $field => $search_value) {
+        foreach ($search_data as $search) {
 
-            if (isset($search_fields[$field]) &&
-                $search_fields[$field] instanceof Data\Search
+            if (is_array($search) &&
+                ! empty($search['field']) &&
+                isset($search['value']) &&
+                is_string($search['field']) &&
+                is_string($search['value']) &&
+                isset($search_fields[$search['field']]) &&
+                $search_fields[$search['field']] instanceof Data\Search
             ) {
-                $this->search[$field] = $search_fields[$field]
-                    ->setField($field)
-                    ->setValue($search_value);
+                $this->search[$search['field']] = $search_fields[$search['field']]
+                    ->setField($search['field'])
+                    ->setValue($search['value']);
             }
         }
 
@@ -152,10 +160,9 @@ class Data extends Table\Abstract\Adapter {
         $args = [];
 
         foreach ($sort_fields as $field => $direction) {
-            $col    = array_column($data, $field);
-            $args[] = $col;
+            $args[] = array_column($data, $field);
 
-            if ('asc' === $direction) {
+            if ($direction === 'asc') {
                 $args[] = SORT_ASC;
             } else {
                 $args[] = SORT_DESC;
@@ -164,7 +171,8 @@ class Data extends Table\Abstract\Adapter {
             $args[] = $sort_flag;
         }
 
-        $args[] = $data;
+        $args[] = &$data;
+
         call_user_func_array("array_multisort", $args);
 
         return $data;
@@ -186,7 +194,7 @@ class Data extends Table\Abstract\Adapter {
 
         foreach ($data as $key => $row) {
             if ($current_page == 1) {
-                if ($i <= $records_per_page) {
+                if ($i <= $records_per_page || $records_per_page === 0) {
                     $new_data[$key] = $row;
                 } else {
                     break;
