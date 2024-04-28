@@ -318,6 +318,28 @@ class Table {
 
 
     /**
+     * Указывает отображать ли заголовки колонок
+     * @param bool|null $show_headers
+     * @return self
+     */
+    public function setShowHeader(bool $show_headers = null): self {
+
+        $this->show_headers = $show_headers;
+        return $this;
+    }
+
+
+    /**
+     * Получение отображения заголовков колонок
+     * @return bool|null
+     */
+    public function getShowHeader():? bool {
+
+        return $this->show_headers;
+    }
+
+
+    /**
      * Установка параметров для загрузки содержимого таблицы
      * @param string|null $url
      * @param string      $method
