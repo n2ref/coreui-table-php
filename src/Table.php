@@ -258,10 +258,10 @@ class Table {
     /**
      * Установка высоты на которой заголовок будет оставаться.
      * Работает при неактивном overflow
-     * @param bool|null $thead_top
+     * @param int|null $thead_top
      * @return self
      */
-    public function setTheadTop(bool $thead_top = null): self {
+    public function setTheadTop(int $thead_top = null): self {
 
         $this->thead_top = $thead_top;
         return $this;
