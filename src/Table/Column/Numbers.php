@@ -10,11 +10,13 @@ use CoreUI\Table\Trait;
 class Numbers extends Abstract\Column {
 
     /**
-     * @param string|null $label
+     * @param string|null     $label
+     * @param string|int|null $width
      */
-    public function __construct(string $label = null) {
+    public function __construct(string $label = null, string|int $width = null) {
 
         $this->setLabel($label);
+        $this->setWidth($width);
     }
 
 

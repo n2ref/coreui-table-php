@@ -12,13 +12,15 @@ class Text extends Abstract\Column {
     use Trait\NoWrap;
 
     /**
-     * @param string      $field
-     * @param string|null $label
+     * @param string          $field
+     * @param string|null     $label
+     * @param string|int|null $width
      */
-    public function __construct(string $field, string $label = null) {
+    public function __construct(string $field, string $label = null, string|int $width = null) {
 
         $this->setField($field);
         $this->setLabel($label);
+        $this->setWidth($width);
     }
 
 

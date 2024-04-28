@@ -11,7 +11,7 @@ abstract class Column {
     use Trait\Attributes;
 
     protected ?string         $label       = null;
-    protected string          $field       = '';
+    protected ?string         $field       = null;
     protected ?string         $description = null;
     protected string|int|null $width       = null;
     protected string|int|null $min_width   = null;
@@ -23,19 +23,19 @@ abstract class Column {
 
 
     /**
-     * @param string $field
-     * @return self
+     * @param string|null $field
+     * @return $this
      */
-    public function setField(string $field): self {
+    public function setField(string $field = null): self {
         $this->field = $field;
         return $this;
     }
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getField(): string {
+    public function getField():? string {
         return $this->field;
     }
 
@@ -353,10 +353,11 @@ abstract class Column {
      */
     public function toArray(): array {
 
-        $data = [
-            'field' => $this->field
-        ];
+        $data = [];
 
+        if ( ! is_null($this->field)) {
+            $data['field'] = $this->field;
+        }
         if ( ! is_null($this->label)) {
             $data['label'] = $this->label;
         }
