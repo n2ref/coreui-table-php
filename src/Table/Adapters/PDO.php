@@ -111,7 +111,8 @@ abstract class PDO extends Table\Abstract\Adapter {
 
         foreach ($sort_data as $sort) {
 
-            if ( ! empty($sort['field']) &&
+            if (is_array($sort) &&
+                 ! empty($sort['field']) &&
                  ! empty($sort['order']) &&
                 isset($sort_fields[$sort['field']]) &&
                 is_string($sort_fields[$sort['field']]) &&

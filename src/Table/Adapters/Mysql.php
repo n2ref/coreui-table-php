@@ -18,16 +18,21 @@ class Mysql extends PDO {
 
         $this->search = [];
 
-        foreach ($search_data as $field => $search_value) {
+        foreach ($search_data as $search) {
 
-            if (isset($search_fields[$field]) &&
-                $search_fields[$field] instanceof Mysql\Search
+            if (is_array($search) &&
+                ! empty($search['field']) &&
+                isset($search['value']) &&
+                is_string($search['field']) &&
+                is_string($search['value']) &&
+                isset($search_fields[$search['field']]) &&
+                $search_fields[$search['field']] instanceof Mysql\Search
             ) {
-                $search_fields[$field]
-                    ->setConnection($search_value)
-                    ->setValue($search_value);
+                $search_fields[$search['field']]
+                    ->setConnection($this->getConnection())
+                    ->setValue($search['value']);
 
-                $this->search[$field] = $search_fields[$field];
+                $this->search[$search['field']] = $search_fields[$search['field']];
             }
         }
 
