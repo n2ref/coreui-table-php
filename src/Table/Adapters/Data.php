@@ -80,7 +80,10 @@ class Data extends Table\Abstract\Adapter {
                 is_string($sort['order']) &&
                 in_array(strtolower($sort['order']), ['asc', 'desc'])
             ) {
-                $this->sort[$sort['field']] = strtolower($sort['order']);
+                $this->sort[] = [
+                    'field' => $sort['field'],
+                    'order' => strtolower($sort['order'])
+                ];
             }
         }
 
@@ -152,23 +155,33 @@ class Data extends Table\Abstract\Adapter {
      * Сортировка
      * @param array $data
      * @param array $sort_fields
-     * @param int   $sort_flag
      * @return array
      */
-    private function sortRecords(array $data, array $sort_fields, int $sort_flag = SORT_REGULAR): array {
+    private function sortRecords(array $data, array $sort_fields): array {
 
         $args = [];
 
-        foreach ($sort_fields as $field => $direction) {
-            $args[] = array_column($data, $field);
+        foreach ($sort_fields as $field) {
 
-            if ($direction === 'asc') {
+            if ( ! isset($field['field']) ||
+                ! isset($field['order']) ||
+                ! is_string($field['field']) ||
+                ! is_string($field['order'])
+            ) {
+                continue;
+            }
+
+            $args[] = $args[] = array_map(function($row) use($field) {
+                return is_array($row) ? ($row[$field['field']] ?? null) : null;
+            }, $data);
+
+            if ($field['order'] === 'asc') {
                 $args[] = SORT_ASC;
             } else {
                 $args[] = SORT_DESC;
             }
 
-            $args[] = $sort_flag;
+            $args[] = $field['flag'] ?? SORT_REGULAR;
         }
 
         $args[] = &$data;
