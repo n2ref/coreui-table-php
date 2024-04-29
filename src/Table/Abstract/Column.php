@@ -10,16 +10,17 @@ abstract class Column {
 
     use Trait\Attributes;
 
-    protected ?string         $label       = null;
-    protected ?string         $field       = null;
-    protected ?string         $description = null;
-    protected string|int|null $width       = null;
-    protected string|int|null $min_width   = null;
-    protected string|int|null $max_width   = null;
-    protected ?string         $fixed       = null;
-    protected ?bool           $is_sortable = null;
-    protected ?bool           $is_show     = null;
-    protected ?array          $attr_header = [];
+    protected ?string         $label         = null;
+    protected ?string         $field         = null;
+    protected ?string         $description   = null;
+    protected string|int|null $width         = null;
+    protected string|int|null $min_width     = null;
+    protected string|int|null $max_width     = null;
+    protected ?string         $fixed         = null;
+    protected ?bool           $is_sortable   = null;
+    protected ?bool           $is_show       = null;
+    protected ?bool           $is_show_label = null;
+    protected ?array          $attr_header   = [];
 
 
     /**
@@ -132,6 +133,24 @@ abstract class Column {
      */
     public function getShow():? bool {
         return $this->is_show;
+    }
+
+
+    /**
+     * @param bool|null $is_show_label
+     * @return $this
+     */
+    public function setShowLabel(bool $is_show_label = null): self {
+        $this->is_show_label = $is_show_label;
+        return $this;
+    }
+
+
+    /**
+     * @return bool|null
+     */
+    public function getShowLabel():? bool {
+        return $this->is_show_label;
     }
 
 
@@ -375,6 +394,9 @@ abstract class Column {
         }
         if ( ! is_null($this->is_show)) {
             $data['show'] = $this->is_show;
+        }
+        if ( ! is_null($this->is_show_label)) {
+            $data['showLabel'] = $this->is_show_label;
         }
         if ( ! is_null($this->is_sortable)) {
             $data['sortable'] = $this->is_sortable;
