@@ -24,7 +24,7 @@ class Mysql extends PDO {
                 ! empty($search['field']) &&
                 isset($search['value']) &&
                 is_string($search['field']) &&
-                is_string($search['value']) &&
+                (is_string($search['value']) || is_array($search['value'])) &&
                 isset($search_fields[$search['field']]) &&
                 $search_fields[$search['field']] instanceof Mysql\Search
             ) {
