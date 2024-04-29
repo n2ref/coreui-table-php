@@ -7,38 +7,39 @@ namespace CoreUI;
  */
 class Table {
 
-    protected ?string         $id               = null;
-    protected ?int            $page             = null;
-    protected ?int            $records_per_page = null;
-    protected ?array          $group            = null;
-    protected ?string         $on_click         = null;
-    protected ?string         $click_url        = null;
-    protected int|string|null $max_height       = null;
-    protected int|string|null $min_height       = null;
-    protected int|string|null $height           = null;
-    protected int|string|null $max_width        = null;
-    protected int|string|null $min_width        = null;
-    protected int|string|null $width            = null;
-    protected ?string         $class_style      = null;
-    protected ?string         $primary_key      = null;
-    protected ?bool           $show_headers     = null;
-    protected ?bool           $no_border        = null;
-    protected ?bool           $no_wrap          = null;
-    protected ?bool           $no_wrap_toggle   = null;
-    protected ?bool           $save_state       = null;
-    protected ?bool           $overflow         = null;
-    protected ?int            $thead_top        = null;
-    protected ?string         $lang             = null;
-    protected ?array          $lang_list        = null;
-    protected ?array          $records_request  = null;
-    protected ?array          $header           = null;
-    protected ?array          $footer           = null;
-    protected ?array          $sort             = null;
-    protected ?array          $columns_header   = null;
-    protected ?array          $columns_footer   = null;
-    protected ?array          $search           = null;
-    protected array           $columns          = [];
-    protected array           $records          = [];
+    protected ?string         $id                 = null;
+    protected ?int            $page               = null;
+    protected ?int            $records_per_page   = null;
+    protected ?array          $group              = null;
+    protected ?string         $on_click           = null;
+    protected ?string         $click_url          = null;
+    protected int|string|null $max_height         = null;
+    protected int|string|null $min_height         = null;
+    protected int|string|null $height             = null;
+    protected int|string|null $max_width          = null;
+    protected int|string|null $min_width          = null;
+    protected int|string|null $width              = null;
+    protected ?string         $class_style        = null;
+    protected ?string         $primary_key        = null;
+    protected ?bool           $show_headers       = null;
+    protected ?bool           $no_border          = null;
+    protected ?bool           $no_wrap            = null;
+    protected ?bool           $no_wrap_toggle     = null;
+    protected ?bool           $save_state         = null;
+    protected ?bool           $overflow           = null;
+    protected ?int            $thead_top          = null;
+    protected ?string         $lang               = null;
+    protected ?array          $lang_list          = null;
+    protected ?array          $records_request    = null;
+    protected ?array          $header             = null;
+    protected ?array          $footer             = null;
+    protected ?array          $sort               = null;
+    protected ?array          $columns_header     = null;
+    protected ?array          $columns_footer     = null;
+    protected ?array          $search             = null;
+    protected string|int|null $search_label_width = null;
+    protected array           $columns            = [];
+    protected array           $records            = [];
 
 
     /**
@@ -645,6 +646,18 @@ class Table {
 
 
     /**
+     * Установка ширины для колонки с заголовками для поиска
+     * @param string|int|null $width
+     * @return $this
+     */
+    public function setSearchLabelWidth(string|int $width = null): self {
+
+        $this->search_label_width = $width;
+        return $this;
+    }
+
+
+    /**
      * Очистка добавленных строк над таблицей
      * @param string|null $type
      * @return self
@@ -906,7 +919,10 @@ class Table {
             $result['sort'] = $this->sort;
         }
         if ($search) {
-            $result['search'] = $search;
+            if ( ! is_null($this->search_label_width)) {
+                $result['search']['labelWidth'] = $this->search_label_width;
+            }
+            $result['search']['controls'] = $search;
         }
         if ($columns) {
             $result['columns'] = $columns;
