@@ -171,7 +171,7 @@ class Data extends Table\Abstract\Adapter {
                 continue;
             }
 
-            $args[] = $args[] = array_map(function($row) use($field) {
+            $args[] = array_map(function($row) use($field) {
                 return is_array($row) ? ($row[$field['field']] ?? null) : null;
             }, $data);
 
