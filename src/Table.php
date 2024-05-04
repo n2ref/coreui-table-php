@@ -22,6 +22,7 @@ class Table {
     protected ?string         $class_style        = null;
     protected ?string         $primary_key        = null;
     protected ?bool           $show_headers       = null;
+    protected ?bool           $show_scroll_shadow = null;
     protected ?bool           $no_border          = null;
     protected ?bool           $no_wrap            = null;
     protected ?bool           $no_wrap_toggle     = null;
@@ -337,6 +338,28 @@ class Table {
     public function getShowHeader():? bool {
 
         return $this->show_headers;
+    }
+
+
+    /**
+     * Указывает отображать ли тень при прокрутке
+     * @param bool|null $show_scroll_shadow
+     * @return self
+     */
+    public function setShowScrollShadow(bool $show_scroll_shadow = null): self {
+
+        $this->show_scroll_shadow = $show_scroll_shadow;
+        return $this;
+    }
+
+
+    /**
+     * Получение отображения тени при прокрутке
+     * @return bool|null
+     */
+    public function getShowScrollShadow():? bool {
+
+        return $this->show_scroll_shadow;
     }
 
 
@@ -869,6 +892,9 @@ class Table {
         }
         if ( ! is_null($this->show_headers)) {
             $result['showHeaders'] = $this->show_headers;
+        }
+        if ( ! is_null($this->show_scroll_shadow)) {
+            $result['showScrollShadow'] = $this->show_scroll_shadow;
         }
         if ( ! is_null($this->save_state)) {
             $result['saveState'] = $this->save_state;
