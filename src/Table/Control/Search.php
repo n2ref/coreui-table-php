@@ -35,9 +35,11 @@ class Search extends Table\Abstract\Control {
             $this->button = null;
 
         } else {
-            $this->button = [
-                'content' => $content,
-            ];
+            $this->button = [];
+
+            if ( ! empty($content)) {
+                $this->button['content'] = $content;
+            }
 
             if ( ! empty($attr)) {
                 foreach ($attr as $name => $value) {
@@ -64,9 +66,11 @@ class Search extends Table\Abstract\Control {
             $this->button_clear = null;
 
         } else {
-            $this->button_clear = [
-                'content' => $content,
-            ];
+            $this->button_clear = [];
+
+            if ( ! empty($content)) {
+                $this->button_clear['content'] = $content;
+            }
 
             if ( ! empty($attr)) {
                 foreach ($attr as $name => $value) {
@@ -93,9 +97,11 @@ class Search extends Table\Abstract\Control {
             $this->button_complete = null;
 
         } else {
-            $this->button_complete = [
-                'content' => $content,
-            ];
+            $this->button_complete = [];
+
+            if ( ! empty($content)) {
+                $this->button_complete['content'] = $content;
+            }
 
             if ( ! empty($attr)) {
                 foreach ($attr as $name => $value) {

@@ -34,9 +34,11 @@ class Columns extends Table\Abstract\Control {
             $this->button = null;
 
         } else {
-            $this->button = [
-                'content' => $content,
-            ];
+            $this->button = [];
+
+            if ( ! empty($content)) {
+                $this->button['content'] = $content;
+            }
 
             if ( ! empty($attr)) {
                 foreach ($attr as $name => $value) {
@@ -63,9 +65,11 @@ class Columns extends Table\Abstract\Control {
             $this->button_complete = null;
 
         } else {
-            $this->button_complete = [
-                'content' => $content,
-            ];
+            $this->button_complete = [];
+
+            if ( ! empty($content)) {
+                $this->button_complete['content'] = $content;
+            }
 
             if ( ! empty($attr)) {
                 foreach ($attr as $name => $value) {
