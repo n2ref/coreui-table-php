@@ -7,7 +7,7 @@ namespace CoreUI\Table;
  */
 class Toolbox {
 
-    private string $type   = 'out';
+    private string $type   = '';
     private ?array $left   = null;
     private ?array $center = null;
     private ?array $right  = null;
@@ -32,10 +32,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в левую часть
-     * @param array $controls
+     * @param array  $controls
+     * @param string $position
      * @return self
      */
-    public function left(array $controls): self {
+    public function left(array $controls, string $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->left)) {
             $this->left = [];
@@ -45,7 +46,12 @@ class Toolbox {
             if ($control instanceof Abstract\Control ||
                 $control instanceof Abstract\Filter
             ) {
-                $this->left[] = $control;
+                if ($position === \CoreUI\Table::LAST) {
+                    $this->left[] = $control;
+
+                } elseif ($position === \CoreUI\Table::FIRST) {
+                    array_unshift($this->left , $control);
+                }
             }
         }
 
@@ -55,10 +61,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в центральную часть
-     * @param array $controls
+     * @param array  $controls
+     * @param string $position
      * @return self
      */
-    public function center(array $controls): self {
+    public function center(array $controls, string $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->center)) {
             $this->center = [];
@@ -68,6 +75,13 @@ class Toolbox {
             if ($control instanceof Abstract\Control ||
                 $control instanceof Abstract\Filter
             ) {
+                if ($position === \CoreUI\Table::LAST) {
+                    $this->center[] = $control;
+
+                } elseif ($position === \CoreUI\Table::FIRST) {
+                    array_unshift($this->center , $control);
+                }
+
                 $this->center[] = $control;
             }
         }
@@ -78,10 +92,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в правую часть
-     * @param array $controls
+     * @param array  $controls
+     * @param string $position
      * @return self
      */
-    public function right(array $controls): self {
+    public function right(array $controls, string $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->right)) {
             $this->right = [];
@@ -91,7 +106,12 @@ class Toolbox {
             if ($control instanceof Abstract\Control ||
                 $control instanceof Abstract\Filter
             ) {
-                $this->right[] = $control;
+                if ($position === \CoreUI\Table::LAST) {
+                    $this->right[] = $control;
+
+                } elseif ($position === \CoreUI\Table::FIRST) {
+                    array_unshift($this->right , $control);
+                }
             }
         }
 

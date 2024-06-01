@@ -1,5 +1,6 @@
 <?php
 namespace CoreUI;
+use CoreUI\Table\Toolbox;
 
 
 /**
@@ -41,6 +42,9 @@ class Table {
     protected string|int|null $search_label_width = null;
     protected array           $columns            = [];
     protected array           $records            = [];
+
+    const FIRST = 1;
+    const LAST  = -1;
 
 
     /**
@@ -566,7 +570,10 @@ class Table {
      */
     public function addHeaderOut(): Table\Toolbox {
 
-        return $this->addHeader('out');
+        $header = new Table\Toolbox('out');
+        $this->header[] = $header;
+
+        return $header;
     }
 
 
@@ -576,7 +583,66 @@ class Table {
      */
     public function addHeaderIn(): Table\Toolbox {
 
-        return $this->addHeader('in');
+        $header = new Table\Toolbox('in');
+        $this->header[] = $header;
+
+        return $header;
+    }
+
+
+    /**
+     * Получение строки над таблицей, внутри
+     * @param int|string $position
+     * @return Toolbox|null
+     */
+    public function getHeaderOut(int|string $position = 1):? Table\Toolbox {
+
+        return $this->getHeader($position, 'out');
+    }
+
+
+    /**
+     * Получение строки над таблицей, снаружи
+     * @param int|string $position
+     * @return Toolbox|null
+     */
+    public function getHeaderIn(int|string $position = 1):? Table\Toolbox {
+
+        return $this->getHeader($position, 'in');
+    }
+
+
+    /**
+     * Установка строки под таблицей, внутри
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function setHeaderOut(int $position = 1):? Table\Toolbox {
+
+        $header = $this->getHeaderOut($position);
+
+        if (empty($header)) {
+            $header = $this->addHeaderOut();
+        }
+
+        return $header;
+    }
+
+
+    /**
+     * Установка строки под таблицей, снаружи
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function setHeaderIn(int $position = 1):? Table\Toolbox {
+
+        $header = $this->getHeaderIn($position);
+
+        if (empty($header)) {
+            $header = $this->addHeaderIn();
+        }
+
+        return $header;
     }
 
 
@@ -586,7 +652,10 @@ class Table {
      */
     public function addFooterIn(): Table\Toolbox {
 
-        return $this->addFooter('in');
+        $footer = new Table\Toolbox('in');
+        $this->footer[] = $footer;
+
+        return $footer;
     }
 
 
@@ -596,7 +665,66 @@ class Table {
      */
     public function addFooterOut(): Table\Toolbox {
 
-        return $this->addFooter('out');
+        $footer = new Table\Toolbox('out');
+        $this->footer[] = $footer;
+
+        return $footer;
+    }
+
+
+    /**
+     * Получение строки под таблицей, внутри
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function getFooterOut(int $position = 1):? Table\Toolbox {
+
+        return $this->getFooter($position, 'out');
+    }
+
+
+    /**
+     * Получение строки под таблицей, снаружи
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function getFooterIn(int $position = 1):? Table\Toolbox {
+
+        return $this->getFooter($position, 'in');
+    }
+
+
+    /**
+     * Установка строки под таблицей, внутри
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function setFooterOut(int $position = 1):? Table\Toolbox {
+
+        $footer = $this->getFooterOut($position);
+
+        if (empty($footer)) {
+            $footer = $this->addFooterOut();
+        }
+
+        return $footer;
+    }
+
+
+    /**
+     * Установка строки под таблицей, снаружи
+     * @param int $position
+     * @return Toolbox|null
+     */
+    public function setFooterIn(int $position = 1):? Table\Toolbox {
+
+        $footer = $this->getFooterIn($position);
+
+        if (empty($footer)) {
+            $footer = $this->addFooterOut();
+        }
+
+        return $footer;
     }
 
 
@@ -962,28 +1090,88 @@ class Table {
 
 
     /**
-     * Добавление строки над таблицей
+     * Получение строки над таблицей
+     * @param int    $position
      * @param string $type
-     * @return Table\Toolbox
+     * @return Toolbox|null
      */
-    private function addHeader(string $type): Table\Toolbox {
+    protected function getHeader(int $position, string $type):? Toolbox {
 
-        $header = new Table\Toolbox($type);
-        $this->header[] = $header;
+        $header = null;
+
+        if ( ! empty($this->header) && $position !== 0) {
+
+            $items = [];
+
+            $i = 1;
+            foreach ($this->header as $item) {
+                if ($item instanceof Toolbox && $item->getType() === $type) {
+                    if ($position > 0) {
+                        if ($i == $position) {
+                            $header = $item;
+                            break;
+                        }
+
+                    } else {
+                        $items[] = $item;
+                    }
+
+                    $i++;
+                }
+            }
+
+            if (empty($header) && ! empty($items) && count($items) >= abs($position)) {
+                $items = array_reverse($items);
+
+                if (isset($items[abs($position)])) {
+                    $header = $items[abs($position)];
+                }
+            }
+        }
 
         return $header;
     }
 
 
     /**
-     * Добавление строки под таблицей
-     * @param string $type
-     * @return Table\Toolbox
+     * Получение строки под таблицей
+     * @param int $position
+     * @param string     $type
+     * @return Toolbox|null
      */
-    private function addFooter(string $type): Table\Toolbox {
+    protected function getFooter(int $position, string $type):? Toolbox {
 
-        $footer = new Table\Toolbox($type);
-        $this->footer[] = $footer;
+        $footer = null;
+
+        if ( ! empty($this->footer) && $position !== 0) {
+
+            $items = [];
+
+            $i = 1;
+            foreach ($this->footer as $item) {
+                if ($item instanceof Toolbox && $item->getType() === $type) {
+                    if ($position > 0) {
+                        if ($i == $position) {
+                            $footer = $item;
+                            break;
+                        }
+
+                    } else {
+                        $items[] = $item;
+                    }
+
+                    $i++;
+                }
+            }
+
+            if (empty($footer) && ! empty($items) && count($items) >= abs($position)) {
+                $items = array_reverse($items);
+
+                if (isset($items[abs($position)])) {
+                    $footer = $items[abs($position)];
+                }
+            }
+        }
 
         return $footer;
     }
