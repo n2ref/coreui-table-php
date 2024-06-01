@@ -19,6 +19,7 @@ class Button extends Abstract\Column {
         $this->setField($field);
         $this->setLabel($label);
         $this->setWidth($width);
+        $this->setSort(false);
     }
 
 
