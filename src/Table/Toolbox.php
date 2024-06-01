@@ -32,11 +32,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в левую часть
-     * @param array  $controls
-     * @param string $position
+     * @param array $controls
+     * @param int   $position
      * @return self
      */
-    public function left(array $controls, string $position = \CoreUI\Table::LAST): self {
+    public function left(array $controls, int $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->left)) {
             $this->left = [];
@@ -61,11 +61,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в центральную часть
-     * @param array  $controls
-     * @param string $position
+     * @param array $controls
+     * @param int   $position
      * @return self
      */
-    public function center(array $controls, string $position = \CoreUI\Table::LAST): self {
+    public function center(array $controls, int $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->center)) {
             $this->center = [];
@@ -92,11 +92,11 @@ class Toolbox {
 
     /**
      * Добавление элементов управления в правую часть
-     * @param array  $controls
-     * @param string $position
+     * @param array $controls
+     * @param int   $position
      * @return self
      */
-    public function right(array $controls, string $position = \CoreUI\Table::LAST): self {
+    public function right(array $controls, int $position = \CoreUI\Table::LAST): self {
 
         if (is_null($this->right)) {
             $this->right = [];

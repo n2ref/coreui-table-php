@@ -1123,8 +1123,8 @@ class Table {
             if (empty($header) && ! empty($items) && count($items) >= abs($position)) {
                 $items = array_reverse($items);
 
-                if (isset($items[abs($position)])) {
-                    $header = $items[abs($position)];
+                if (isset($items[abs($position) - 1])) {
+                    $header = $items[abs($position) - 1];
                 }
             }
         }
@@ -1167,8 +1167,8 @@ class Table {
             if (empty($footer) && ! empty($items) && count($items) >= abs($position)) {
                 $items = array_reverse($items);
 
-                if (isset($items[abs($position)])) {
-                    $footer = $items[abs($position)];
+                if (isset($items[abs($position) - 1])) {
+                    $footer = $items[abs($position) - 1];
                 }
             }
         }
