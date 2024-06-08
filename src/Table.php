@@ -423,7 +423,7 @@ class Table {
 
     /**
      * Получение данных
-     * @return array
+     * @return Table\Record[]
      */
     public function getRecords(): array {
 

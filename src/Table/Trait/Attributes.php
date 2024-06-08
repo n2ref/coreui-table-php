@@ -15,7 +15,7 @@ trait Attributes {
      * @param string $value
      * @return self
      */
-    public function setAttr(string $name, string $value): self {
+    public function setAttr(string $name, string $value = ''): self {
 
         if (is_null($this->attr)) {
             $this->attr = [];
