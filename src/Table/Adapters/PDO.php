@@ -141,7 +141,7 @@ abstract class PDO extends Table\Abstract\Adapter {
 
     /**
      * Получение данных из базы
-     * @return array
+     * @return Table\Record[]
      * @throws Exception
      */
     public function fetchRecords(): array {

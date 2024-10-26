@@ -39,7 +39,7 @@
     
     $table->addSearch([
         (new Table\Search\Text('email',          "Email"))->setDescription('Описание'),
-        (new Table\Search\Switch('is_active_sw', "Активность"))->setValueY('Y'),
+        (new Table\Search\Switch('is_active_sw', "Активность"))->setValueY(1),
         (new Table\Search\Date('date_created',   "Дата использования"))
     ]);
     
@@ -50,7 +50,7 @@
         (new Table\Column\Text('name',           "Имя"))->setSort(true),
         (new Table\Column\Text('email',          "Email",         80))->setAttr('class', 'text-left')    
         (new Table\Column\Date('date_created',   "Дата создания", 110))->setFormat('DD.MM.YYYY')->setSort(true);    
-        (new Table\Column\Switch('is_active_sw', "Активность",    50))->setValueY('Y')->setValueN('N');    
+        (new Table\Column\Switch('is_active_sw', "Активность",    50))->setValueY(1)->setValueN(0);    
     ]);
     
       

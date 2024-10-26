@@ -42,7 +42,7 @@ class Mysql extends PDO {
 
     /**
      * Получение данных по запросу sql
-     * @return array
+     * @return Table\Record[]
      */
     protected function fetchData(): array {
 

@@ -11,7 +11,7 @@ abstract class Search {
     protected string  $field             = '';
     protected ?string $label             = null;
     protected ?string $description       = null;
-    protected ?string $description_title = null;
+    protected ?string $description_label = null;
     protected ?string $prefix            = null;
 
 
@@ -96,8 +96,8 @@ abstract class Search {
     /**
      * @return string
      */
-    public function getDescriptionTitle(): string {
-        return $this->description_title;
+    public function getDescriptionLabel(): string {
+        return $this->description_label;
     }
 
 
@@ -105,9 +105,9 @@ abstract class Search {
      * @param string|null $description
      * @return $this
      */
-    public function setDescriptionTitle(string $description = null): self {
+    public function setDescriptionLabel(string $description = null): self {
 
-        $this->description_title = $description;
+        $this->description_label = $description;
         return $this;
     }
 
@@ -163,8 +163,8 @@ abstract class Search {
         if ( ! is_null($this->description)) {
             $data['description'] = $this->description;
         }
-        if ( ! is_null($this->description_title)) {
-            $data['description_title'] = $this->description_title;
+        if ( ! is_null($this->description_label)) {
+            $data['descriptionLabel'] = $this->description_label;
         }
         if ( ! is_null($this->prefix)) {
             $data['prefix'] = $this->prefix;

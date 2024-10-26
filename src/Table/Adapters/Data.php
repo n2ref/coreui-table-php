@@ -24,7 +24,7 @@ class Data extends Table\Abstract\Adapter {
 
     /**
      * Получение данных.
-     * @return array
+     * @return Table\Record[]
      * @throws \Exception
      */
     public function fetchRecords(): array {
