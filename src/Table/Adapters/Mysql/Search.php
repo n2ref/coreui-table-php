@@ -71,7 +71,7 @@ abstract class Search {
 
     /**
      * Формирование условия для поиска
-     * @return string
+     * @return string|null
      */
-    abstract public function getWhere(): string;
+    abstract public function getWhere():? string;
 }

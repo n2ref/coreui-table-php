@@ -10,9 +10,9 @@ class Like extends Mysql\Search {
 
     /**
      * Формирование условия для поиска
-     * @return string
+     * @return string|null
      */
-    public function getWhere(): string {
+    public function getWhere():? string {
 
         $where = null;
 
