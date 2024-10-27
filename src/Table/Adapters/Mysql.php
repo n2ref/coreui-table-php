@@ -51,7 +51,11 @@ class Mysql extends PDO {
         if ( ! empty($this->search)) {
             foreach ($this->search as $search) {
                 if ($search instanceof Mysql\Search) {
-                    $select->addWhere($search->getWhere());
+
+                    $where = $search->getWhere();
+                    if ( ! is_null($where)) {
+                        $select->addWhere($where);
+                    }
                 }
             }
         }
