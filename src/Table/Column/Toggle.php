@@ -10,6 +10,7 @@ use CoreUI\Table\Trait;
 class Toggle extends Abstract\Column {
 
     use Trait\ValueY;
+    use Trait\ValueN;
 
     protected ?bool   $disabled  = null;
     protected ?string $on_change = null;
@@ -76,6 +77,9 @@ class Toggle extends Abstract\Column {
 
         if ( ! is_null($this->value_y)) {
             $data['valueY'] = $this->value_y;
+        }
+        if ( ! is_null($this->value_n)) {
+            $data['valueN'] = $this->value_n;
         }
         if ( ! is_null($this->disabled)) {
             $data['disabled'] = $this->disabled;
