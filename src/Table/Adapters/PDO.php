@@ -34,9 +34,9 @@ abstract class PDO extends Table\Abstract\Adapter {
 
     /**
      * Получение sql запроса который выполняется для получения данных
-     * @return string
+     * @return string|null
      */
-    public function getQueryResult(): string {
+    public function getQueryResult():? string {
 
         return $this->query_result;
     }
