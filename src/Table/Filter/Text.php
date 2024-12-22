@@ -10,10 +10,11 @@ class Text extends Table\Abstract\Filter {
 
     use Table\Trait\Attributes;
 
-    private ?string         $label  = null;
-    private ?string         $value  = null;
-    private string|int|null $width  = null;
-    private ?array          $button = null;
+    private ?string         $label       = null;
+    private ?string         $value       = null;
+    private ?bool           $auto_search = null;
+    private string|int|null $width       = null;
+    private ?array          $button      = null;
 
     /**
      * @param string      $field
@@ -68,6 +69,27 @@ class Text extends Table\Abstract\Filter {
      */
     public function getWidth(): string|int|float|null {
         return $this->width;
+    }
+
+
+    /**
+     * Установка авто-поиска при изменении
+     * @param bool|null $is_search
+     * @return $this
+     */
+    public function setAutoSearch(bool $is_search = null): self {
+        $this->auto_search = $is_search;
+
+        return $this;
+    }
+
+
+    /**
+     * Получение авто-поиска при изменении
+     * @return int|null
+     */
+    public function getAutoSearch(): int|null {
+        return $this->auto_search;
     }
 
 
@@ -133,6 +155,23 @@ class Text extends Table\Abstract\Filter {
 
 
     /**
+     * Установка значения атрибута placeholder
+     * @param string $value
+     * @return self
+     */
+    public function setAttrPlaceholder(string $value = ''): self {
+
+        if (is_null($this->attr)) {
+            $this->attr = [];
+        }
+
+        $this->attr['preloader'] = $value;
+
+        return $this;
+    }
+
+
+    /**
      * Преобразование в массив
      * @return array
      */
@@ -142,21 +181,12 @@ class Text extends Table\Abstract\Filter {
 
         $data['type'] = 'filter:text';
 
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
-        if ( ! is_null($this->label)) {
-            $data['label'] = $this->label;
-        }
-        if ( ! is_null($this->value)) {
-            $data['value'] = $this->value;
-        }
-        if ( ! is_null($this->button)) {
-            $data['btn'] = $this->button;
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
+        if ( ! is_null($this->width))       { $data['width'] = $this->width; }
+        if ( ! is_null($this->label))       { $data['label'] = $this->label; }
+        if ( ! is_null($this->value))       { $data['value'] = $this->value; }
+        if ( ! is_null($this->button))      { $data['btn'] = $this->button; }
+        if ( ! is_null($this->attr))        { $data['attr'] = $this->attr; }
+        if ( ! is_null($this->auto_search)) { $data['autoSearch'] = $this->auto_search; }
 
         return $data;
     }

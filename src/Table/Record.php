@@ -124,6 +124,24 @@ class Record implements \Iterator {
 
 
     /**
+     * Очистка полей которые не входят в заданный состав
+     * @param array $fields
+     * @return void
+     */
+    public function limitFields(array $fields): void {
+
+        if ( ! empty($this->cells)) {
+            foreach ($this->cells as $field => $cell) {
+
+                if ( ! array_key_exists($field, $fields)) {
+                    unset($this->cells[$field]);
+                }
+            }
+        }
+    }
+
+
+    /**
      * Преобразование в массив
      * @return array
      */

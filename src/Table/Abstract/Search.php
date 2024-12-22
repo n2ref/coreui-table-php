@@ -12,7 +12,7 @@ abstract class Search {
     protected ?string $label             = null;
     protected ?string $description       = null;
     protected ?string $description_label = null;
-    protected ?string $prefix            = null;
+    protected ?string $suffix            = null;
 
 
     /**
@@ -115,18 +115,18 @@ abstract class Search {
     /**
      * @return string
      */
-    public function getPrefix(): string {
-        return $this->prefix;
+    public function getSuffix(): string {
+        return $this->suffix;
     }
 
 
     /**
-     * @param string|null $prefix
+     * @param string|null $suffix
      * @return $this
      */
-    public function setPrefix(string $prefix = null): self {
+    public function setSuffix(string $suffix = null): self {
 
-        $this->prefix = $prefix;
+        $this->suffix = $suffix;
         return $this;
     }
 
@@ -166,8 +166,8 @@ abstract class Search {
         if ( ! is_null($this->description_label)) {
             $data['descriptionLabel'] = $this->description_label;
         }
-        if ( ! is_null($this->prefix)) {
-            $data['prefix'] = $this->prefix;
+        if ( ! is_null($this->suffix)) {
+            $data['suffix'] = $this->suffix;
         }
 
         return $data;

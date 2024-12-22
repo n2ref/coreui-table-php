@@ -10,7 +10,8 @@ class Divider extends Table\Abstract\Control {
 
     use Table\Trait\Attributes;
 
-    protected ?int $width = null;
+    protected ?int    $width = null;
+    protected ?string $text = null;
 
 
     /**
@@ -45,6 +46,26 @@ class Divider extends Table\Abstract\Control {
 
 
     /**
+     * Установка текста
+     * @param string|null $text
+     * @return $this
+     */
+    public function setText(string $text = null): self {
+        $this->text = $text;
+        return $this;
+    }
+
+
+    /**
+     * Получение текста
+     * @return int|null
+     */
+    public function getText():? int {
+        return $this->text;
+    }
+
+
+    /**
      * Преобразование в массив
      * @return array
      */
@@ -54,12 +75,9 @@ class Divider extends Table\Abstract\Control {
 
         $data['type'] = 'divider';
 
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
+        if ( ! is_null($this->attr))  { $data['attr'] = $this->attr; }
+        if ( ! is_null($this->width)) { $data['width'] = $this->width; }
+        if ( ! is_null($this->text))  { $data['text'] = $this->text; }
 
         return $data;
     }

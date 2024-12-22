@@ -21,6 +21,7 @@ abstract class Column {
     protected ?bool           $is_show       = null;
     protected ?bool           $is_show_label = null;
     protected ?array          $attr_header   = [];
+    protected array           $menu          = [];
 
 
     /**
@@ -209,6 +210,87 @@ abstract class Column {
 
 
     /**
+     * Добавление пункта меню для колонки
+     * @param string $text
+     * @return $this
+     */
+    public function addMenuHeader(string $text): self {
+
+        $this->menu[] = [
+            'type' => 'header',
+            'text' => $text,
+        ];
+
+        return $this;
+    }
+
+
+    /**
+     * Добавление пункта меню для колонки
+     * @param string     $text
+     * @param string     $on_click
+     * @param array|null $attr
+     * @return $this
+     */
+    public function addMenuButton(string $text, string $on_click, array $attr = null): self {
+
+        $this->menu[] = [
+            'type'    => 'button',
+            'text'    => $text,
+            'onClick' => $on_click,
+            'attr'    => $attr,
+        ];
+
+        return $this;
+    }
+
+
+    /**
+     * Добавление пункта меню для колонки
+     * @param string     $text
+     * @param string     $url
+     * @param array|null $attr
+     * @return $this
+     */
+    public function addMenuLink(string $text, string $url, array $attr = null): self {
+
+        $this->menu[] = [
+            'type' => 'link',
+            'text' => $text,
+            'url'  => $url,
+            'attr' => $attr,
+        ];
+
+        return $this;
+    }
+
+
+    /**
+     * Добавление разделителя для меню в колонке
+     * @return $this
+     */
+    public function addMenuDivider(): self {
+
+        $this->menu[] = [
+            'type' => 'divider',
+        ];
+
+        return $this;
+    }
+
+
+    /**
+     * Очистка всех пунктов меню
+     * @return $this
+     */
+    public function clearMenu(): self {
+
+        $this->menu = [];
+        return $this;
+    }
+
+
+    /**
      * Установка значения атрибута
      * @param string $name
      * @param string $value
@@ -374,42 +456,19 @@ abstract class Column {
 
         $data = [];
 
-        if ( ! is_null($this->field)) {
-            $data['field'] = $this->field;
-        }
-        if ( ! is_null($this->label)) {
-            $data['label'] = $this->label;
-        }
-        if ( ! is_null($this->description)) {
-            $data['description'] = $this->description;
-        }
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
-        if ( ! is_null($this->min_width)) {
-            $data['minWidth'] = $this->min_width;
-        }
-        if ( ! is_null($this->max_width)) {
-            $data['maxWidth'] = $this->max_width;
-        }
-        if ( ! is_null($this->is_show)) {
-            $data['show'] = $this->is_show;
-        }
-        if ( ! is_null($this->is_show_label)) {
-            $data['showLabel'] = $this->is_show_label;
-        }
-        if ( ! is_null($this->is_sortable)) {
-            $data['sortable'] = $this->is_sortable;
-        }
-        if ( ! is_null($this->fixed)) {
-            $data['fixed'] = $this->fixed;
-        }
-        if ( ! empty($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
-        if ( ! empty($this->attr_header)) {
-            $data['attrHeader'] = $this->attr_header;
-        }
+        if ( ! is_null($this->field))         { $data['field']       = $this->field; }
+        if ( ! is_null($this->label))         { $data['label']       = $this->label; }
+        if ( ! is_null($this->description))   { $data['description'] = $this->description; }
+        if ( ! is_null($this->width))         { $data['width']       = $this->width; }
+        if ( ! is_null($this->min_width))     { $data['minWidth']    = $this->min_width; }
+        if ( ! is_null($this->max_width))     { $data['maxWidth']    = $this->max_width; }
+        if ( ! is_null($this->is_show))       { $data['show']        = $this->is_show; }
+        if ( ! is_null($this->is_show_label)) { $data['showLabel']   = $this->is_show_label; }
+        if ( ! is_null($this->is_sortable))   { $data['sortable']    = $this->is_sortable; }
+        if ( ! is_null($this->fixed))         { $data['fixed']       = $this->fixed; }
+        if ( ! empty($this->attr))            { $data['attr']        = $this->attr; }
+        if ( ! empty($this->attr_header))     { $data['attrHeader']  = $this->attr_header; }
+        if ( ! empty($this->menu))            { $data['menu']        = $this->menu; }
 
         return $data;
     }

@@ -1,5 +1,6 @@
 <?php
 namespace CoreUI;
+use CoreUI\Table\Group;
 use CoreUI\Table\Toolbox;
 
 
@@ -8,40 +9,41 @@ use CoreUI\Table\Toolbox;
  */
 class Table {
 
-    protected ?string         $id                 = null;
-    protected ?int            $page               = null;
-    protected ?int            $records_per_page   = null;
-    protected ?array          $group              = null;
-    protected ?string         $on_click           = null;
-    protected ?string         $click_url          = null;
-    protected int|string|null $max_height         = null;
-    protected int|string|null $min_height         = null;
-    protected int|string|null $height             = null;
-    protected int|string|null $max_width          = null;
-    protected int|string|null $min_width          = null;
-    protected int|string|null $width              = null;
-    protected ?string         $class_style        = null;
-    protected ?string         $primary_key        = null;
-    protected ?bool           $show_headers       = null;
-    protected ?bool           $show_scroll_shadow = null;
-    protected ?bool           $no_border          = null;
-    protected ?bool           $no_wrap            = null;
-    protected ?bool           $no_wrap_toggle     = null;
-    protected ?bool           $save_state         = null;
-    protected ?bool           $overflow           = null;
-    protected ?int            $thead_top          = null;
-    protected ?string         $lang               = null;
-    protected ?array          $lang_list          = null;
-    protected ?array          $records_request    = null;
-    protected ?array          $header             = null;
-    protected ?array          $footer             = null;
-    protected ?array          $sort               = null;
-    protected ?array          $columns_header     = null;
-    protected ?array          $columns_footer     = null;
-    protected ?array          $search             = null;
-    protected string|int|null $search_label_width = null;
-    protected array           $columns            = [];
-    protected array           $records            = [];
+    protected ?string           $id                 = null;
+    protected ?int              $page               = null;
+    protected ?int              $records_per_page   = null;
+    protected ?Group            $group              = null;
+    protected ?string           $on_click           = null;
+    protected ?string           $click_url          = null;
+    protected int|string|null   $max_height         = null;
+    protected int|string|null   $min_height         = null;
+    protected int|string|null   $height             = null;
+    protected int|string|null   $max_width          = null;
+    protected int|string|null   $min_width          = null;
+    protected int|string|null   $width              = null;
+    protected ?string           $class_style        = null;
+    protected ?string           $primary_key        = null;
+    protected ?bool             $show_headers       = null;
+    protected ?bool             $show_scroll_shadow = null;
+    protected ?bool             $no_border          = null;
+    protected ?bool             $no_wrap            = null;
+    protected ?bool             $no_wrap_toggle     = null;
+    protected ?bool             $save_state         = null;
+    protected ?bool             $overflow           = null;
+    protected ?int              $thead_top          = null;
+    protected ?string           $lang               = null;
+    protected ?array            $lang_items         = null;
+    protected array|string|null $records_request    = null;
+    protected ?array            $request_params     = null;
+    protected ?array            $header             = null;
+    protected ?array            $footer             = null;
+    protected ?array            $sort               = null;
+    protected ?array            $columns_header     = null;
+    protected ?array            $columns_footer     = null;
+    protected ?array            $search             = null;
+    protected string|int|null   $search_label_width = null;
+    protected array             $columns            = [];
+    protected array             $records            = [];
 
     const FIRST = 1;
     const LAST  = -1;
@@ -371,10 +373,9 @@ class Table {
      * Установка параметров для загрузки содержимого таблицы
      * @param string|null $url
      * @param string      $method
-     * @param array|null  $params
      * @return self
      */
-    public function setRecordsRequest(string $url = null, string $method = 'GET', array $params = null): self {
+    public function setRecordsRequest(string $url = null, string $method = 'GET'): self {
 
         if ($url === null) {
             $this->records_request = null;
@@ -384,15 +385,37 @@ class Table {
                 'url'    => $url,
                 'method' => $method,
             ];
+        }
 
-            if ( ! empty($params)) {
-                $this->records_request['params'] = [];
+        return $this;
+    }
 
-                foreach ($params as $name => $value) {
-                    if (is_string($value) && $value) {
-                        $this->records_request['params'][$name] = $value;
-                    }
-                }
+
+    /**
+     * Установка параметров для загрузки содержимого таблицы
+     * @param string $function
+     * @return self
+     */
+    public function setRecordsRequestFunction(string $function): self {
+
+        $this->records_request = $function;
+
+        return $this;
+    }
+
+
+    /**
+     * Установка параметров для загрузки содержимого таблицы
+     * @param array|null $params
+     * @return self
+     */
+    public function setRequestParams(array $params = null): self {
+
+        $this->request_params = [];
+
+        foreach ($params as $name => $value) {
+            if (is_string($value) && $value) {
+                $this->request_params[$name] = $value;
             }
         }
 
@@ -448,11 +471,11 @@ class Table {
      * @param array $lang_items
      * @return $this
      */
-    public function setLangList(array $lang_items): self {
+    public function setLangItems(array $lang_items): self {
 
         foreach ($lang_items as $key => $value) {
             if (is_scalar($value)) {
-                $this->lang_list[$key] = $value;
+                $this->lang_items[$key] = $value;
             }
         }
 
@@ -463,29 +486,28 @@ class Table {
     /**
      * Установка группировки строк по полю
      * @param string|null $field_name
-     * @param array       $attr
-     * @return self
+     * @return Group|null
      */
-    public function setGroupBy(string $field_name = null, array $attr = []): self {
+    public function setGroupBy(string $field_name = null):? Group {
 
         if ( ! $field_name) {
             $this->group = null;
 
         } else {
-            $this->group = [
-                'field' => $field_name,
-            ];
-
-            if ( ! empty($attr)) {
-                foreach ($attr as $name => $value) {
-                    if (is_scalar($value)) {
-                        $this->group['attr'][$name] = $value;
-                    }
-                }
-            }
+            $this->group = new Group($field_name);
         }
 
-        return $this;
+        return $this->group;
+    }
+
+
+    /**
+     * Получение группировки строк
+     * @return Group|null
+     */
+    public function getGroupBy():? Group {
+
+        return $this->group;
     }
 
 
@@ -904,6 +926,23 @@ class Table {
 
 
     /**
+     * Очистка полей в записях которые не входят в заданный состав
+     * @param array $fields
+     * @return $this
+     */
+    public function limitFields(array $fields): self {
+
+        foreach ($this->records as $record) {
+            if ($record instanceof Table\Record) {
+                $record->limitFields($fields);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
      * Получение данных таблицы
      * @return array
      */
@@ -976,114 +1015,50 @@ class Table {
         ];
 
 
-        if ( ! is_null($this->id)) {
-            $result['id'] = $this->id;
-        }
-        if ( ! is_null($this->class_style)) {
-            $result['class'] = $this->class_style;
-        }
-        if ( ! is_null($this->primary_key)) {
-            $result['primaryKey'] = $this->primary_key;
-        }
-        if ( ! is_null($this->page)) {
-            $result['page'] = $this->page;
-        }
-        if ( ! is_null($this->records_per_page)) {
-            $result['recordsPerPage'] = $this->records_per_page;
-        }
-        if ( ! is_null($this->click_url)) {
-            $result['onClickUrl'] = $this->click_url;
-        }
-        if ( ! is_null($this->on_click)) {
-            $result['onClick'] = $this->on_click;
-        }
-        if ( ! is_null($this->lang)) {
-            $result['lang'] = $this->lang;
-        }
-        if ( ! is_null($this->lang_list)) {
-            $result['langList'] = $this->lang_list;
-        }
-        if ( ! is_null($this->overflow)) {
-            $result['overflow'] = $this->overflow;
-        }
-        if ( ! is_null($this->thead_top)) {
-            $result['theadTop'] = $this->thead_top;
-        }
-        if ( ! is_null($this->no_border)) {
-            $result['noBorder'] = $this->no_border;
-        }
-        if ( ! is_null($this->no_wrap)) {
-            $result['noWrap'] = $this->no_wrap;
-        }
-        if ( ! is_null($this->no_wrap_toggle)) {
-            $result['noWrapToggle'] = $this->no_wrap_toggle;
-        }
-        if ( ! is_null($this->show_headers)) {
-            $result['showHeaders'] = $this->show_headers;
-        }
-        if ( ! is_null($this->show_scroll_shadow)) {
-            $result['showScrollShadow'] = $this->show_scroll_shadow;
-        }
-        if ( ! is_null($this->save_state)) {
-            $result['saveState'] = $this->save_state;
-        }
+        if ( ! is_null($this->id))                 { $result['id']               = $this->id; }
+        if ( ! is_null($this->class_style))        { $result['class']            = $this->class_style; }
+        if ( ! is_null($this->primary_key))        { $result['primaryKey']       = $this->primary_key; }
+        if ( ! is_null($this->page))               { $result['page']             = $this->page; }
+        if ( ! is_null($this->records_per_page))   { $result['recordsPerPage']   = $this->records_per_page; }
+        if ( ! is_null($this->click_url))          { $result['onClickUrl']       = $this->click_url; }
+        if ( ! is_null($this->on_click))           { $result['onClick']          = $this->on_click; }
+        if ( ! is_null($this->lang))               { $result['lang']             = $this->lang; }
+        if ( ! is_null($this->lang_items))         { $result['langItems']        = $this->lang_items; }
+        if ( ! is_null($this->overflow))           { $result['overflow']         = $this->overflow; }
+        if ( ! is_null($this->thead_top))          { $result['theadTop']         = $this->thead_top; }
+        if ( ! is_null($this->no_border))          { $result['noBorder']         = $this->no_border; }
+        if ( ! is_null($this->no_wrap))            { $result['noWrap']           = $this->no_wrap; }
+        if ( ! is_null($this->no_wrap_toggle))     { $result['noWrapToggle']     = $this->no_wrap_toggle; }
+        if ( ! is_null($this->show_headers))       { $result['showHeaders']      = $this->show_headers; }
+        if ( ! is_null($this->show_scroll_shadow)) { $result['showScrollShadow'] = $this->show_scroll_shadow; }
+        if ( ! is_null($this->save_state))         { $result['saveState']        = $this->save_state; }
+        if ( ! is_null($this->max_height))         { $result['maxHeight']        = $this->max_height; }
+        if ( ! is_null($this->min_height))         { $result['minHeight']        = $this->min_height; }
+        if ( ! is_null($this->height))             { $result['height']           = $this->height; }
+        if ( ! is_null($this->max_width))          { $result['maxWidth']         = $this->max_width; }
+        if ( ! is_null($this->min_width))          { $result['minWidth']         = $this->min_width; }
+        if ( ! is_null($this->width))              { $result['width']            = $this->width; }
+        if ( ! is_null($this->records_request))    { $result['recordsRequest']   = $this->records_request; }
+        if ( ! is_null($this->request_params))     { $result['requestParams']    = $this->request_params; }
+        if ( ! is_null($this->group))              { $result['group']            = $this->group->toArray(); }
+        if ( ! is_null($this->sort))               { $result['sort']             = $this->sort; }
 
 
-        if ( ! is_null($this->max_height)) {
-            $result['maxHeight'] = $this->max_height;
-        }
-        if ( ! is_null($this->min_height)) {
-            $result['minHeight'] = $this->min_height;
-        }
-        if ( ! is_null($this->height)) {
-            $result['height'] = $this->height;
-        }
+        if ($header)        { $result['header']        = $header; }
+        if ($footer)        { $result['footer']        = $footer; }
+        if ($columnsHeader) { $result['columnsHeader'] = $columnsHeader; }
+        if ($columnsFooter) { $result['columnsFooter'] = $columnsFooter; }
 
 
-        if ( ! is_null($this->max_width)) {
-            $result['maxWidth'] = $this->max_width;
-        }
-        if ( ! is_null($this->min_width)) {
-            $result['minWidth'] = $this->min_width;
-        }
-        if ( ! is_null($this->width)) {
-            $result['width'] = $this->width;
-        }
-
-
-        if ( ! is_null($this->records_request)) {
-            $result['recordsRequest'] = $this->records_request;
-        }
-        if ( ! is_null($this->group)) {
-            $result['group'] = $this->group;
-        }
-        if ($header) {
-            $result['header'] = $header;
-        }
-        if ($footer) {
-            $result['footer'] = $footer;
-        }
-        if ($columnsHeader) {
-            $result['columnsHeader'] = $columnsHeader;
-        }
-        if ($columnsFooter) {
-            $result['columnsFooter'] = $columnsFooter;
-        }
-        if ( ! is_null($this->sort)) {
-            $result['sort'] = $this->sort;
-        }
         if ($search) {
             if ( ! is_null($this->search_label_width)) {
                 $result['search']['labelWidth'] = $this->search_label_width;
             }
             $result['search']['controls'] = $search;
         }
-        if ($columns) {
-            $result['columns'] = $columns;
-        }
-        if ($records) {
-            $result['records'] = $records;
-        }
+
+        if ($columns) { $result['columns'] = $columns; }
+        if ($records) { $result['records'] = $records; }
 
         return $result;
     }
