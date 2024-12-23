@@ -21,6 +21,7 @@ abstract class Column {
     protected ?bool           $is_show       = null;
     protected ?bool           $is_show_label = null;
     protected ?array          $attr_header   = [];
+    protected ?bool           $menu_always   = null;
     protected array           $menu          = [];
 
 
@@ -82,6 +83,7 @@ abstract class Column {
 
 
     /**
+     * Установка признака, что колонка будет зафиксирована слева
      * @return $this
      */
     public function setFixedLeft(): self {
@@ -92,9 +94,10 @@ abstract class Column {
 
 
     /**
+     * Установка признака, что колонка будет зафиксирована справа
      * @return self
      */
-    public function getFixedRight(): self {
+    public function setFixedRight(): self {
 
         $this->fixed = 'right';
         return $this;
@@ -102,6 +105,7 @@ abstract class Column {
 
 
     /**
+     * Установка признака будет ли сортироваться колонка
      * @param bool|null $is_sort
      * @return $this
      */
@@ -112,6 +116,7 @@ abstract class Column {
 
 
     /**
+     * Получение признака будет ли сортироваться колонка
      * @return bool|null
      */
     public function getSort():? bool {
@@ -120,6 +125,7 @@ abstract class Column {
 
 
     /**
+     * Установка признака будет ли отображаться колонка
      * @param bool|null $is_show
      * @return $this
      */
@@ -130,6 +136,7 @@ abstract class Column {
 
 
     /**
+     * Получение признака будет ли отображаться колонка
      * @return bool|null
      */
     public function getShow():? bool {
@@ -138,6 +145,7 @@ abstract class Column {
 
 
     /**
+     * Установка признака будет ли отображаться название колонки
      * @param bool|null $is_show_label
      * @return $this
      */
@@ -148,6 +156,7 @@ abstract class Column {
 
 
     /**
+     * Получение признака будет ли отображаться название колонки
      * @return bool|null
      */
     public function getShowLabel():? bool {
@@ -156,6 +165,7 @@ abstract class Column {
 
 
     /**
+     * Установка ширины колонки
      * @param string|int|null $width
      * @return $this
      */
@@ -166,6 +176,7 @@ abstract class Column {
 
 
     /**
+     * Получение ширины колонки
      * @return string|int|null
      */
     public function getWidth(): string|int|null {
@@ -174,6 +185,7 @@ abstract class Column {
 
 
     /**
+     * Установка минимальной ширины колонки
      * @param string|int|null $width
      * @return $this
      */
@@ -184,6 +196,7 @@ abstract class Column {
 
 
     /**
+     * Получение минимальной ширины колонки
      * @return string|int|null
      */
     public function getMinWidth(): string|int|null {
@@ -192,6 +205,7 @@ abstract class Column {
 
 
     /**
+     * Установка максимальной ширины колонки
      * @param string|int|null $width
      * @return $this
      */
@@ -202,10 +216,23 @@ abstract class Column {
 
 
     /**
+     * Получение максимальной ширины колонки
      * @return string|int|null
      */
     public function getMaxWidth(): string|int|null {
         return $this->max_width;
+    }
+
+
+    /**
+     * Указывает, будет ли меню видно всегда
+     * @param bool|null $is_show
+     * @return $this
+     */
+    public function showMenuAlways(bool $is_show = null): self {
+
+        $this->menu_always = $is_show;
+        return $this;
     }
 
 
@@ -468,7 +495,15 @@ abstract class Column {
         if ( ! is_null($this->fixed))         { $data['fixed']       = $this->fixed; }
         if ( ! empty($this->attr))            { $data['attr']        = $this->attr; }
         if ( ! empty($this->attr_header))     { $data['attrHeader']  = $this->attr_header; }
-        if ( ! empty($this->menu))            { $data['menu']        = $this->menu; }
+
+        if ( ! empty($this->menu)) {
+            if (isset($this->menu_always)) {
+                $data['menu']['showAlways'] = $this->menu_always;
+            }
+
+            $data['menu']['items'] = $this->menu;
+        }
+
 
         return $data;
     }
