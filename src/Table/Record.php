@@ -133,7 +133,7 @@ class Record implements \Iterator {
         if ( ! empty($this->cells)) {
             foreach ($this->cells as $field => $cell) {
 
-                if ( ! array_key_exists($field, $fields)) {
+                if ( ! in_array($field, $fields)) {
                     unset($this->cells[$field]);
                 }
             }
