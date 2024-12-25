@@ -7,7 +7,7 @@ namespace CoreUI\Table\Trait;
  */
 trait ValueN {
 
-    private string|int|float|null $value_n = null;
+    private string|int|float|null $value_n = 0;
 
 
     /**

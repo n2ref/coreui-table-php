@@ -75,18 +75,10 @@ class Toggle extends Abstract\Column {
 
         $data['type'] = 'switch';
 
-        if ( ! is_null($this->value_y)) {
-            $data['valueY'] = $this->value_y;
-        }
-        if ( ! is_null($this->value_n)) {
-            $data['valueN'] = $this->value_n;
-        }
-        if ( ! is_null($this->disabled)) {
-            $data['disabled'] = $this->disabled;
-        }
-        if ( ! is_null($this->on_change)) {
-            $data['onChange'] = $this->on_change;
-        }
+        if ( ! is_null($this->value_y))   { $data['valueY']   = $this->value_y; }
+        if ( ! is_null($this->value_n))   { $data['valueN']   = $this->value_n; }
+        if ( ! is_null($this->disabled))  { $data['disabled'] = $this->disabled; }
+        if ( ! is_null($this->on_change)) { $data['onChange'] = $this->on_change; }
 
         return $data;
     }
