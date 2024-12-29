@@ -30,7 +30,7 @@ class PageJump extends Table\Abstract\Control {
 
         $data = parent::toArray();
 
-        $data['type'] = 'page_jump';
+        $data['type'] = 'pageJump';
 
         if ( ! is_null($this->attr)) {
             $data['attr'] = $this->attr;

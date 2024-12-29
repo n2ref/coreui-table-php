@@ -90,7 +90,7 @@ class ButtonGroup extends Table\Abstract\Control {
 
         $data = parent::toArray();
 
-        $data['type']    = 'button_group';
+        $data['type']    = 'buttonGroup';
         $data['buttons'] = [];
 
         foreach ($this->buttons as $buttons) {

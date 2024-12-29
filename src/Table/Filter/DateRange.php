@@ -123,23 +123,19 @@ class DateRange extends Table\Abstract\Filter {
 
         $data = parent::toArray();
 
-        $data['type'] = 'filter:date_range';
+        $data['type'] = 'filter:dateRange';
 
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
-        if ( ! is_null($this->label)) {
-            $data['label'] = $this->label;
-        }
+        if ( ! is_null($this->width)) { $data['width'] = $this->width; }
+        if ( ! is_null($this->label)) { $data['label'] = $this->label; }
+
         if ( ! is_null($this->value_start) || ! is_null($this->value_end)) {
             $data['value'] = [
                 'start' => $this->value_start?->format('Y-m-d'),
                 'end'   => $this->value_end?->format('Y-m-d'),
             ];
         }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
+
+        if ( ! is_null($this->attr)) { $data['attr'] = $this->attr; }
 
         return $data;
     }

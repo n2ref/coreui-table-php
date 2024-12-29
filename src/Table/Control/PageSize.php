@@ -57,14 +57,10 @@ class PageSize extends Table\Abstract\Control {
 
         $data = parent::toArray();
 
-        $data['type'] = 'page_size';
+        $data['type'] = 'pageSize';
 
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
-        if ( ! is_null($this->list)) {
-            $data['list'] = $this->list;
-        }
+        if ( ! is_null($this->attr)) { $data['attr'] = $this->attr; }
+        if ( ! is_null($this->list)) { $data['list'] = $this->list; }
 
         return $data;
     }

@@ -116,20 +116,12 @@ class DateMonth extends Table\Abstract\Filter {
 
         $data = parent::toArray();
 
-        $data['type'] = 'filter:date_month';
+        $data['type'] = 'filter:dateMonth';
 
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
-        if ( ! is_null($this->label)) {
-            $data['label'] = $this->label;
-        }
-        if ( ! is_null($this->value)) {
-            $data['value'] = $this->value->format('Y-m-d');
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
+        if ( ! is_null($this->width)) { $data['width'] = $this->width; }
+        if ( ! is_null($this->label)) { $data['label'] = $this->label; }
+        if ( ! is_null($this->value)) { $data['value'] = $this->value->format('Y-m-d'); }
+        if ( ! is_null($this->attr))  { $data['attr'] = $this->attr; }
 
         return $data;
     }

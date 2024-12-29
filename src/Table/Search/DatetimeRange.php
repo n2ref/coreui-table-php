@@ -87,24 +87,19 @@ class DatetimeRange extends Table\Abstract\Search {
 
         $data = parent::toArray();
 
-        $data['type']  = 'datetime_range';
+        $data['type']  = 'datetimeRange';
         $data['field'] = $this->field;
 
 
-        if ( ! is_null($this->id)) {
-            $data['id'] = $this->id;
-        }
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
+        if ( ! is_null($this->id))    { $data['id'] = $this->id; }
+        if ( ! is_null($this->width)) { $data['width'] = $this->width; }
+        if ( ! is_null($this->attr))  { $data['attr'] = $this->attr; }
+
         if ( ! is_null($this->value_start) || ! is_null($this->value_end)) {
             $data['value'] = [
                 'start' => $this->value_start?->format('Y-m-d H:i:s'),
                 'end'   => $this->value_end?->format('Y-m-d H:i:s'),
             ];
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
         }
 
         return $data;

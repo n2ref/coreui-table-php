@@ -80,19 +80,13 @@ class DateMonth extends Table\Abstract\Search {
 
         $data = parent::toArray();
 
-        $data['type']  = 'date_month';
+        $data['type']  = 'dateMonth';
         $data['field'] = $this->field;
 
 
-        if ( ! is_null($this->width)) {
-            $data['width'] = $this->width;
-        }
-        if ( ! is_null($this->value)) {
-            $data['value'] = $this->value->format('Y-m');
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
+        if ( ! is_null($this->width)) { $data['width'] = $this->width; }
+        if ( ! is_null($this->value)) { $data['value'] = $this->value->format('Y-m'); }
+        if ( ! is_null($this->attr))  { $data['attr'] = $this->attr; }
 
         return $data;
     }

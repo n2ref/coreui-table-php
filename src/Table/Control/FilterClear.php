@@ -57,14 +57,10 @@ class FilterClear extends Table\Abstract\Control {
 
         $data = parent::toArray();
 
-        $data['type'] = 'filter_clear';
+        $data['type'] = 'filterClear';
 
-        if ( ! is_null($this->content)) {
-            $data['content'] = $this->content;
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
-        }
+        if ( ! is_null($this->content)) { $data['content'] = $this->content; }
+        if ( ! is_null($this->attr))    { $data['attr'] = $this->attr; }
 
         return $data;
     }
