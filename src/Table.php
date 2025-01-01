@@ -25,7 +25,7 @@ class Table {
     protected ?string           $primary_key        = null;
     protected ?bool             $show_headers       = null;
     protected ?bool             $show_scroll_shadow = null;
-    protected ?bool             $no_border          = null;
+    protected ?string           $theme              = null;
     protected ?bool             $no_wrap            = null;
     protected ?bool             $no_wrap_toggle     = null;
     protected ?bool             $save_state         = null;
@@ -277,14 +277,24 @@ class Table {
 
 
     /**
-     * Убирает внешние границы с таблицы
-     * @param bool|null $no_border
+     * Установка названия темы внешнего вида
+     * @param string|null $name
      * @return self
      */
-    public function setNoBorder(bool $no_border = null): self {
+    public function setTheme(string $name = null): self {
 
-        $this->no_border = $no_border;
+        $this->theme = $name;
         return $this;
+    }
+
+
+    /**
+     * Получение названия темы внешнего вида
+     * @return string
+     */
+    public function getTheme(): string {
+
+        return $this->theme;
     }
 
 
@@ -1026,7 +1036,7 @@ class Table {
         if ( ! is_null($this->lang_items))         { $result['langItems']        = $this->lang_items; }
         if ( ! is_null($this->overflow))           { $result['overflow']         = $this->overflow; }
         if ( ! is_null($this->thead_top))          { $result['theadTop']         = $this->thead_top; }
-        if ( ! is_null($this->no_border))          { $result['noBorder']         = $this->no_border; }
+        if ( ! is_null($this->theme))              { $result['theme']            = $this->theme; }
         if ( ! is_null($this->no_wrap))            { $result['noWrap']           = $this->no_wrap; }
         if ( ! is_null($this->no_wrap_toggle))     { $result['noWrapToggle']     = $this->no_wrap_toggle; }
         if ( ! is_null($this->show_headers))       { $result['showHeaders']      = $this->show_headers; }
