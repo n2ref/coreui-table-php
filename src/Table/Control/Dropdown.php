@@ -93,16 +93,16 @@ class Dropdown extends Table\Abstract\Control {
 
     /**
      * Добавление ссылки
-     * @param string      $content
-     * @param string|null $id
+     * @param string $content
+     * @param string $url
      * @return Dropdown\Link
      */
-    public function addLink(string $content, string $id = null): Dropdown\Link {
+    public function addLink(string $content, string $url): Dropdown\Link {
 
-        $button = new Dropdown\Link($content, $id);
+        $link = new Dropdown\Link($content, $url);
 
-        $this->items[] = $button;
-        return $button;
+        $this->items[] = $link;
+        return $link;
     }
 
 
@@ -138,7 +138,12 @@ class Dropdown extends Table\Abstract\Control {
 
         $data['type']    = 'dropdown';
         $data['content'] = $this->content;
-        $data['items']   = [];
+
+        if ( ! is_null($this->attr)) {
+            $data['attr'] = $this->attr;
+        }
+
+        $data['items'] = [];
 
         foreach ($this->items as $item) {
             if (is_array($item)) {
@@ -150,9 +155,6 @@ class Dropdown extends Table\Abstract\Control {
 
         if ( ! is_null($this->position)) {
             $data['position'] = $this->position;
-        }
-        if ( ! is_null($this->attr)) {
-            $data['attr'] = $this->attr;
         }
 
         return $data;

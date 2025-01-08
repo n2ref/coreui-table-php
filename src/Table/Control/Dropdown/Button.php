@@ -79,7 +79,7 @@ class Button {
     public function toArray(): array {
 
         $data = [
-            'type'    => 'link',
+            'type'    => 'button',
             'content' => $this->content,
             'onClick' => $this->onclick,
         ];
