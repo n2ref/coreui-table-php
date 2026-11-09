@@ -32,9 +32,9 @@ class Record implements \Iterator {
     /**
      * Get cell class
      * @param string $field
-     * @return Cell|string
+     * @return mixed
      */
-    public function __get(string $field): Cell|string {
+    public function __get(string $field): mixed {
 
         if ( ! array_key_exists($field, $this->cells)) {
             $this->cells[$field] = new Cell('');
