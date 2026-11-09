@@ -34,7 +34,7 @@ class Record implements \Iterator {
      * @param string $field
      * @return Cell|string
      */
-    public function __get(string $field) {
+    public function __get(string $field): Cell|string {
 
         if ( ! array_key_exists($field, $this->cells)) {
             $this->cells[$field] = new Cell('');
@@ -49,7 +49,7 @@ class Record implements \Iterator {
      * @param string $field
      * @param mixed  $value
      */
-    public function __set(string $field, mixed $value) {
+    public function __set(string $field, mixed $value): void {
 
         if (array_key_exists($field, $this->cells)) {
             $this->cells[$field]->setValue($value);
@@ -64,8 +64,17 @@ class Record implements \Iterator {
      * @param string $field
      * @return bool
      */
-    public function __isset(string $field) {
+    public function __isset(string $field): bool {
         return isset($this->cells[$field]);
+    }
+
+
+    /**
+     * @param string $field
+     * @return void
+     */
+    public function __unset(string $field): void {
+        unset($this->cells[$field]);
     }
 
 
